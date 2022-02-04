@@ -5,5 +5,4 @@ public class AgentModel {
  public String lastName;
  public String img;
  public List<MaterialModel> materials;
-
 }
