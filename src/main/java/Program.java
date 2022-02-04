@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,13 +39,28 @@ public class Program {
     private static void WriteFile(String fileName, String content) {
         //Files.write(Paths.get(fileName), content.getBytes(StandardCharsets.UTF_8));
     }
-    private static void GenerateProfil(String $name){
-            File f = new File("/Profil_"+$name+".txt");
-    }
-    private static void GenerateProfil(List<Object> list) {
-     for(var i=0; i<list.size();i++){
-         GenerateProfil(list.indexOf(i).name);
 
+
+    private static String GenerateProfil(AgentModel agent)throws IOException {
+        var indexFile = GetResourceByName("Profil.html");
+        var htmlBuilder = new HtmlBuilder();
+        indexFile = indexFile.replace("$firstName",agent.firstName);
+        indexFile = indexFile.replace("$lastName",agent.lastName);
+        indexFile = indexFile.replace("$img",agent.img);
+        for (var materiel: agent.materials)
+            htmlBuilder.append(String.format("<input type='checkbox' checked=%b><label>%s</label>",materiel.value, materiel.label));
+
+        indexFile = indexFile.replace("$materials", htmlBuilder.toString());
+        return indexFile;
+    }
+    private static void GenerateProfils(AgentModel[] viewModel) {
+     for (var agent: viewModel){
+         try {
+             System.out.println(GenerateProfil(agent));
+
+         }catch(Exception e){
+             System.out.println(e);
+         }
      }
     }
 
@@ -52,8 +69,10 @@ public class Program {
 
         var indexFileContent = GenerateIndexView(agents);
 
+        GenerateProfils(agents);
 
 
         System.out.println(indexFileContent);
+
     }
 }
