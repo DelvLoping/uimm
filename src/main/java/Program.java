@@ -23,9 +23,14 @@ public class Program {
         return indexFile;
     }
 
+    
+
     public static void main(String[] args) throws IOException {
 
-        var indexFileContent = GenerateIndexView(new ArrayList<>());
 
+
+        var indexFileContent = GenerateIndexView(new ArrayList<Object>());
+
+        System.out.println(indexFileContent);
     }
 }
