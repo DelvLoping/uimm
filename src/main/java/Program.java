@@ -1,5 +1,6 @@
 import java.io.IOException;
-public class Program {
+
+public class Program extends AProgram {
     private static String GenerateProfil(AgentModel agent)throws IOException {
         var indexFile = GetResourceByName("Profil.html");
         var htmlBuilder = new HtmlBuilder();
@@ -15,7 +16,7 @@ public class Program {
     private static void GenerateProfils(AgentModel[] viewModel) {
      for (var agent: viewModel){
          try {
-             System.out.println(GenerateProfil(agent));
+             WriteFile("output/profiles/"+agent.getFileName("html"),GenerateProfil(agent));
 
          }catch(Exception e){
              System.out.println(e);
@@ -33,5 +34,6 @@ public class Program {
 
         // Création des profiles
         // TODO: Florent
+        GenerateProfils(agents);
     }
 }
