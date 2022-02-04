@@ -23,7 +23,15 @@ public class Program {
         return indexFile;
     }
 
-    
+    private static void GenerateProfil(String $name){
+            File f = new File("/Profil_"+$name+".txt");
+    }
+    private static void GenerateProfil(List<Object> list) {
+     for(var i=0; i<list.size();i++){
+         GenerateProfil(list.indexOf(i).name);
+
+     }
+    }
 
     public static void main(String[] args) throws IOException {
 
