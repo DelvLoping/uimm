@@ -14,7 +14,7 @@ public class AgentModel {
  }
 
  public String getFullName() {
-  return String.format("%s %s", lastName.toLowerCase(), firstName.toLowerCase());
+  return String.format("%s %s", lastName.toUpperCase(), firstName);
 
  }
 
