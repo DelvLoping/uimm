@@ -1,0 +1,132 @@
+[
+  {
+    "firstName": "Patrick",
+    "lastName": "Timsit",
+    "img": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Patrick_Timsit_printemps_du_cin%C3%A9ma_2013.jpg",
+    "materials": [
+      {"label":"Ordinateur fixe", "value": false},
+      {"label":"Ordinateur portable", "value": false},
+      {"label":"Badge d’entrée", "value": false},
+      {"label":"Casque audio", "value": true},
+      {"label":"Téléphone portable", "value": false},
+      {"label":"Classe Mobile", "value": false}
+    ]
+  },
+  {
+    "firstName": "Sophie",
+    "lastName": "Joostopo",
+    "img": "https://api.multiavatar.com/7bd866eab49d55aa35.png",
+    "materials": [
+      {"label":"Ordinateur fixe", "value": false},
+      {"label":"Ordinateur portable", "value": true},
+      {"label":"Badge d’entrée", "value": true},
+      {"label":"Casque audio", "value": true},
+      {"label":"Téléphone portable", "value": false},
+      {"label":"Classe Mobile", "value": false}
+    ]
+  },
+  {
+    "firstName": "Severine",
+    "lastName": "Serialo",
+    "img": "https://api.multiavatar.com/D.png",
+    "materials": [
+      {"label":"Ordinateur fixe", "value": true},
+      {"label":"Ordinateur portable", "value": false},
+      {"label":"Badge d’entrée", "value": false},
+      {"label":"Casque audio", "value": false},
+      {"label":"Téléphone portable", "value": false},
+      {"label":"Classe Mobile", "value": true}
+    ]
+  },
+  {
+    "firstName": "Spoke",
+    "lastName": "monsieur",
+    "img": "https://api.multiavatar.com/995ed8503d5d72c168.png",
+    "materials": [
+      {"label":"Ordinateur fixe", "value": false},
+      {"label":"Ordinateur portable", "value": true},
+      {"label":"Badge d’entrée", "value": false},
+      {"label":"Casque audio", "value": false},
+      {"label":"Téléphone portable", "value": false},
+      {"label":"Classe Mobile", "value": false}
+    ]
+  },
+  {
+    "firstName": "Raoul",
+    "lastName": "Cooul",
+    "img": "https://api.multiavatar.com/e5b951195500867a25.png",
+    "materials": [
+      {"label":"Ordinateur fixe", "value": false},
+      {"label":"Ordinateur portable", "value": false},
+      {"label":"Badge d’entrée", "value": true},
+      {"label":"Casque audio", "value": false},
+      {"label":"Téléphone portable", "value": true},
+      {"label":"Classe Mobile", "value": true}
+    ]
+  },
+  {
+    "firstName": "Paul",
+    "lastName": "Chapoconect",
+    "img": "https://api.multiavatar.com/106486e7d9d6961800.png",
+    "materials": [
+      {"label":"Ordinateur fixe", "value": true},
+      {"label":"Ordinateur portable", "value": false},
+      {"label":"Badge d’entrée", "value": false},
+      {"label":"Casque audio", "value": false},
+      {"label":"Téléphone portable", "value": true},
+      {"label":"Classe Mobile", "value": false}
+    ]
+  },
+  {
+    "firstName": "Fred",
+    "lastName": "Laplage",
+    "img": "https://api.multiavatar.com/6ff684abd00dd72898.png",
+    "materials": [
+      {"label":"Ordinateur fixe", "value": false},
+      {"label":"Ordinateur portable", "value": false},
+      {"label":"Badge d’entrée", "value": false},
+      {"label":"Casque audio", "value": false},
+      {"label":"Téléphone portable", "value": false},
+      {"label":"Classe Mobile", "value": true}
+    ]
+  },
+  {
+    "firstName": "Zinedine",
+    "lastName": "Zidane",
+    "img": "https://api.multiavatar.com/eb00e62304e5655e99.png",
+    "materials": [
+      {"label":"Ordinateur fixe", "value": true},
+      {"label":"Ordinateur portable", "value": true},
+      {"label":"Badge d’entrée", "value": true},
+      {"label":"Casque audio", "value": true},
+      {"label":"Téléphone portable", "value": true},
+      {"label":"Classe Mobile", "value": true}
+    ]
+  },
+  {
+    "firstName": "Marie",
+    "lastName": "Curry",
+    "img": "https://api.multiavatar.com/8d8a10a7fe14690652.png",
+    "materials": [
+      {"label":"Ordinateur fixe", "value": false},
+      {"label":"Ordinateur portable", "value": false},
+      {"label":"Badge d’entrée", "value": false},
+      {"label":"Casque audio", "value": false},
+      {"label":"Téléphone portable", "value": false},
+      {"label":"Classe Mobile", "value": false}
+    ]
+  },
+  {
+    "firstName": "Roger",
+    "lastName": "Mustatch",
+    "img": "https://api.multiavatar.com/8224d7d4bb361d32ff.png",
+    "materials": [
+      {"label":"Ordinateur fixe", "value": false},
+      {"label":"Ordinateur portable", "value": true},
+      {"label":"Badge d’entrée", "value": true},
+      {"label":"Casque audio", "value": true},
+      {"label":"Téléphone portable", "value": false},
+      {"label":"Classe Mobile", "value": false}
+    ]
+  }
+]
