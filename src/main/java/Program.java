@@ -4,11 +4,10 @@ public class Program extends AProgram {
     private static String GenerateProfil(AgentModel agent)throws IOException {
         var indexFile = GetResourceByName("Profil.html");
         var htmlBuilder = new HtmlBuilder();
-        indexFile = indexFile.replace("$firstName",agent.firstName);
-        indexFile = indexFile.replace("$lastName",agent.lastName);
+        indexFile = indexFile.replace("$fullName", agent.getFullName());
         indexFile = indexFile.replace("$img",agent.img);
         for (var materiel: agent.materials)
-            htmlBuilder.append(String.format("<input type='checkbox' checked=%b><label>%s</label>",materiel.value, materiel.label));
+            htmlBuilder.append(String.format("<input type='checkbox' %s><label>%s</label>",materiel.value?"checked":"", materiel.label));
 
         indexFile = indexFile.replace("$materials", htmlBuilder.toString());
         return indexFile;

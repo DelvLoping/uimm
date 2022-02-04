@@ -23,7 +23,7 @@ public abstract class AProgram {
 
         //viewModel.forEach(agentModel -> {});
         for (var model: viewModel)
-            htmlBuilder.append(String.format("<li><a href=output/profiles/"+model.getFileName("html")+">%s %s</a></li>", model.firstName, model.lastName));
+            htmlBuilder.append(String.format("<li><a href='profiles/"+model.getFileName("html")+"'>%s %s</a></li>", model.firstName, model.lastName));
 
         indexFile = indexFile.replace("$elements", htmlBuilder.toString());
         return indexFile;
