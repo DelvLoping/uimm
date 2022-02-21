@@ -21,9 +21,8 @@ public abstract class AProgram {
         var htmlBuilder = new HtmlBuilder();
 
 
-        //viewModel.forEach(agentModel -> {});
         for (var model: viewModel)
-            htmlBuilder.append(String.format("<li>%s %s</li>", model.firstName, model.lastName));
+            htmlBuilder.append(String.format("<li><a href='profiles/"+model.getFileName("html")+"'>%s</a></li>", model.getFullName()));
 
         indexFile = indexFile.replace("$elements", htmlBuilder.toString());
         return indexFile;
