@@ -33,7 +33,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.example.Program</mainClass>
+                            <mainClass>Program</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
