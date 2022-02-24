@@ -1,28 +1,12 @@
 import java.io.IOException;
 
+/**
+ * Classe principale
+ */
 public class Program extends AProgram {
-    private static String GenerateProfil(AgentModel agent)throws IOException {
-        var indexFile = GetResourceByName("Profil.html");
-        var htmlBuilder = new HtmlBuilder();
-        indexFile = indexFile.replace("$fullName", agent.getFullName());
-        indexFile = indexFile.replace("$img",agent.img);
-        for (var materiel: agent.materials)
-            htmlBuilder.append(String.format("<input type='checkbox' %s><label>%s</label>",materiel.value?"checked":"", materiel.label));
-
-        indexFile = indexFile.replace("$materials", htmlBuilder.toString());
-        return indexFile;
-    }
-    private static void GenerateProfils(AgentModel[] viewModel) {
-     for (var agent: viewModel){
-         try {
-             WriteFile("output/profiles/"+agent.getFileName("html"),GenerateProfil(agent));
-
-         }catch(Exception e){
-             System.out.println(e);
-         }
-     }
-    }
-
+    /**
+     * Point d'entrée
+     * */
     public static void main(String[] args) throws IOException {
         // On va chercher les agents
         var agents = GetAgents();
@@ -32,8 +16,6 @@ public class Program extends AProgram {
         WriteFile("output/index.html", indexFileContent);
 
         // Création des profiles
-        // TODO: Florent
-        GenerateProfils(agents);
-
+        GenerateProfiles(agents);
     }
 }
