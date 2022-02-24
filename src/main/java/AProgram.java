@@ -48,7 +48,7 @@ public abstract class AProgram {
         indexFile = indexFile.replace("$img", agent.img);
 
         for (var materiel: agent.materials)
-            htmlBuilder.append(String.format("<input type='checkbox' %s><label>%s</label>", materiel.value ? "checked" : "disabled", materiel.label));
+            htmlBuilder.append(String.format("<label>%s</label><input type='checkbox' %s>", materiel.label, materiel.value ? "checked disabled" : "disabled"));
 
         indexFile = indexFile.replace("$materials", htmlBuilder.toString());
         return indexFile;
