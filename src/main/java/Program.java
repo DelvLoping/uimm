@@ -34,5 +34,6 @@ public class Program extends AProgram {
         // Création des profiles
         // TODO: Florent
         GenerateProfils(agents);
+
     }
 }
