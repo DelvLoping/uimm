@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Classe principale
@@ -12,6 +13,13 @@ public class Program extends AProgram {
 
     public Program() throws IOException {
         headFile = GetResourceByName("head.html");
+    }
+
+    public static Map<String, String> GetDirectoryFiles(String directory, String filter)
+    {
+
+
+        return default;
     }
 
     /**
@@ -40,6 +48,9 @@ public class Program extends AProgram {
         Files.walk(FileSystems.getDefault().getPath("src\\main\\resources")).filter(p -> p.toString().endsWith(".txt")).forEach(p -> {
             System.out.println(p.toString());
         });
+
+
+
 
     }
 }
