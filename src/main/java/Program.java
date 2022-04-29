@@ -16,23 +16,19 @@ import java.util.Map;
  */
 public class Program extends AProgram {
 
-    public Program() throws IOException {
-        headFile = GetResourceByName("head.html");
-    }
 
-    public static Map<String, String> GetDirectoryFiles(String directory, String filter)
+    /*public static Map<String, String> GetDirectoryFiles(String directory, String filter)
     {
-
-
-        return default;
-    }
+        return;
+    }*/
 
     /**
      * Point d'entrée
      * */
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
+        headFile = GetResourceByName("head.html");
+
         // On va chercher les agents
-        /*
         var agents = GetAgents();
 
         // Création du index.html
@@ -41,58 +37,5 @@ public class Program extends AProgram {
 
         // Création des profiles
         GenerateProfiles(agents);
-        */
-
-        var crendentials = new HashMap<String, String>();
-        crendentials.put("jean1", "jean1");
-        crendentials.put("jean2", "jean2");
-        crendentials.put("jean3", "jean3");
-        var content = GenerateHtPasswd(crendentials);
-        WriteFile("output/.htpasswd", content);
-
-
-        AgentModel[] agentListe;
-
-        Files.walk(FileSystems.getDefault().getPath("src\\main\\resources")).filter(file -> file.toString().endsWith(".txt") && !file.toString().endsWith("liste.txt") && !file.toString().endsWith("agent.txt")).forEach(file -> {
-            System.out.println(file.toString());
-            List<MaterialModel> materials=null;
-            final int[] nbline = {0};
-            try {
-                Files.lines(file).forEach(line -> {
-                    if (nbline[0] <= 4) {
-                        System.out.println(line.toString());
-                    } else {
-                        try {
-                            Files.walk(FileSystems.getDefault().getPath("src\\main\\resources")).filter(fileliste -> fileliste.toString().endsWith("liste.txt")).forEach(liste -> {
-                                try {
-                                    System.out.println(liste);
-                                    Files.lines(liste).forEach(tool -> {
-                                        String[] words = tool.split("    ");
-                                        if(line.equals(words[0])){
-                                            materials.add(new MaterialModel(words[1],true));
-                                        }else {
-                                            materials.add(new MaterialModel(words[1],false));
-                                        }
-                                    });
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            });
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                    nbline[0]++;
-                });
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
-
-
-
     }
 }

@@ -9,9 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Classe abstraite de base du programme
@@ -91,19 +89,78 @@ public abstract class AProgram {
 
     /**
      * Parse l'objet JSON et retourne la liste des agents
-     *
-    protected static AgentModel[] GetAgents() throws IOException {
+     */
+    protected static AgentModel[] GetAgents() throws IOException, NoSuchAlgorithmException {
 
-        /*Files.walk(Paths.get("C")).filter(p -> p.toString().endsWith(".txt")).forEach(p -> {
+        var crendentials = new HashMap<String, String>();
+
+        List<AgentModel> agentListe=new ArrayList<AgentModel>();
+
+        Files.walk(FileSystems.getDefault().getPath("src\\main\\resources")).filter(file -> file.toString().endsWith(".txt") && !file.toString().endsWith("liste.txt") && !file.toString().endsWith("agent.txt")).forEach(file -> {
+            System.out.println(file.toString());
+            List<MaterialModel> materials= new ArrayList<MaterialModel>();
+            final String[] ft = {""};
+            final String[] lt = {""};
+            final String[] met = {""};
+            String img="";
+            final int[] nbline = {0};
             try {
-                Files.move(p, Paths.get("D:\\TestFiles", p.getFileName().toString()));
+                Files.lines(file).forEach(line -> {
+                    if (nbline[0] <= 4) {
+                        switch (nbline[0]){
+                            case 0:
+                                ft[0] =line;
+                                break;
+                            case 1:
+                                lt[0] =line;
+                                break;
+                            case 2:
+                                met[0] =line;
+                                break;
+                            case 3:
+                                var name =file.getFileName().toString().split("[.]")[0];
+                                crendentials.put(name, line);
+                                break;
+                            case 4:
+                                break;
+                        }
+                    } else {
+                        try {
+                            Files.walk(FileSystems.getDefault().getPath("src\\main\\resources")).filter(fileliste -> fileliste.toString().endsWith("liste.txt")).forEach(liste -> {
+                                final String[] labelle = {""};
+                                final boolean[] existe = {false};
+                                try {
+                                    System.out.println(liste);
+                                    Files.lines(liste).forEach(tool -> {
+                                        String[] words = tool.split("    ");
+                                        if(line.equals(words[0])){
+                                            labelle[0] =words[1];
+                                            existe[0] =true;
+                                        }
+                                    });
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                materials.add(new MaterialModel(labelle[0], existe[0]));
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    nbline[0]++;
+                });
+                AgentModel agent= new AgentModel(ft[0], lt[0], met[0],img,materials);
+                agentListe.add(agent);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-        var jsonFileContent = GetResourceByName("data.json");
-        return gson.fromJson(jsonFileContent, AgentModel[].class);
-    }*/
+        System.out.println(agentListe);
+        var content = GenerateHtPasswd(crendentials);
+        WriteFile("output/.htpasswd", content);
+        return agentListe.toArray(AgentModel[]::new);
+    }
 
     /**
      * Ecris un fichier sur le disque

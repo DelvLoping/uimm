@@ -6,12 +6,14 @@ import java.util.List;
 public class AgentModel {
  public String firstName;
  public String lastName;
+ public String metier;
  public String img;
  public List<MaterialModel> materials;
 
- public AgentModel(String firstN, String lastNe, String im, List<MaterialModel> mt){
+ public AgentModel(String firstN, String lastNe, String met, String im, List<MaterialModel> mt){
   firstName=firstN;
   lastName=lastNe;
+  metier = met;
   img=im;
   materials=mt;
 
@@ -30,6 +32,7 @@ public class AgentModel {
  public String getFullName() {
   return String.format("%s %s", lastName.toUpperCase(), firstName);
  }
+
 }
 
 
