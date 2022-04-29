@@ -1,12 +1,9 @@
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,10 +14,15 @@ import java.util.Objects;
  * Classe principale
  */
 public class Program extends AProgram {
+
+    public Program() throws IOException {
+        headFile = GetResourceByName("head.html");
+    }
+
     /**
      * Point d'entrée
-     */
-    public static void main(String[] args) throws IOException {
+     * */
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
         // On va chercher les agents
         /*
         var agents = GetAgents();
@@ -32,6 +34,14 @@ public class Program extends AProgram {
         // Création des profiles
         GenerateProfiles(agents);
         */
+
+        var crendentials = new HashMap<String, String>();
+        crendentials.put("jean1", "jean1");
+        crendentials.put("jean2", "jean2");
+        crendentials.put("jean3", "jean3");
+        var content = GenerateHtPasswd(crendentials);
+        WriteFile("output/.htpasswd", content);
+
 
         AgentModel[] agentListe;
 
@@ -74,7 +84,4 @@ public class Program extends AProgram {
         });
 
     }
-
-
 }
-

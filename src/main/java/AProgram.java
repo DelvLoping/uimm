@@ -2,22 +2,29 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Classe abstraite de base du programme
  * */
 public abstract class AProgram {
     protected static Gson gson = new Gson();
+    protected static String headFile;
 
     /**
      * Permet de retourner le contenu d'un fichier resource sous forme de chaine de caractères
      * @param viewName Le nom du fichier concerné
      * */
-    private static String GetResourceByName(String viewName) throws IOException {
+    public static String GetResourceByName(String viewName) throws IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream(viewName);
         return new String(input.readAllBytes(), StandardCharsets.UTF_8);
@@ -35,6 +42,7 @@ public abstract class AProgram {
             htmlBuilder.append(String.format("<li><a href='profiles/"+model.getFileName("html")+"'>%s</a></li>", model.getFullName()));
 
         indexFile = indexFile.replace("$elements", htmlBuilder.toString());
+        indexFile = indexFile.replace("$head", headFile);
         return indexFile;
     }
 
@@ -52,6 +60,7 @@ public abstract class AProgram {
             htmlBuilder.append(String.format("<label>%s</label><input type='checkbox' %s>", materiel.label, materiel.value ? "checked disabled" : "disabled"));
 
         indexFile = indexFile.replace("$materials", htmlBuilder.toString());
+        indexFile = indexFile.replace("$head", headFile);
         return indexFile;
     }
 
@@ -62,6 +71,22 @@ public abstract class AProgram {
         for (var agent: viewModel) {
             WriteFile("output/profiles/" + agent.getFileName("html"), GenerateProfile(agent));
         }
+    }
+
+    protected static String GenerateHtPasswd(Map<String, String> credentials) throws NoSuchAlgorithmException {
+        var result = "";
+        MessageDigest md = MessageDigest.getInstance("SHA-1");
+
+        for (var cred: credentials.entrySet())
+        {
+            var passwordBytes = cred.getValue().getBytes();
+            md.update(passwordBytes);
+            var digest = md.digest();
+            var passwordHash = Base64.getEncoder().encodeToString(digest);
+            result += String.format("%s:{SHA}%s\n", cred.getKey(), passwordHash);
+        }
+
+        return result;
     }
 
     /**
