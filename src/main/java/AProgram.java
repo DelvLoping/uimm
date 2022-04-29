@@ -95,14 +95,14 @@ public abstract class AProgram {
         var crendentials = new HashMap<String, String>();
 
         List<AgentModel> agentListe=new ArrayList<AgentModel>();
-
         Files.walk(FileSystems.getDefault().getPath("src\\main\\resources")).filter(file -> file.toString().endsWith(".txt") && !file.toString().endsWith("liste.txt") && !file.toString().endsWith("agent.txt")).forEach(file -> {
             System.out.println(file.toString());
             List<MaterialModel> materials= new ArrayList<MaterialModel>();
             final String[] ft = {""};
             final String[] lt = {""};
             final String[] met = {""};
-            String img="";
+            List<String> tools= new ArrayList<String>();
+            String img="https://i.pravatar.cc/300";
             final int[] nbline = {0};
             try {
                 Files.lines(file).forEach(line -> {
@@ -125,31 +125,47 @@ public abstract class AProgram {
                                 break;
                         }
                     } else {
-                        try {
-                            Files.walk(FileSystems.getDefault().getPath("src\\main\\resources")).filter(fileliste -> fileliste.toString().endsWith("liste.txt")).forEach(liste -> {
-                                final String[] labelle = {""};
-                                final boolean[] existe = {false};
-                                try {
-                                    System.out.println(liste);
-                                    Files.lines(liste).forEach(tool -> {
-                                        String[] words = tool.split("    ");
-                                        if(line.equals(words[0])){
-                                            labelle[0] =words[1];
-                                            existe[0] =true;
-                                        }
-                                    });
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                materials.add(new MaterialModel(labelle[0], existe[0]));
-                            });
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        tools.add(line);
+//                            Files.walk(FileSystems.getDefault().getPath("src\\main\\resources")).filter(fileliste -> fileliste.toString().endsWith("liste.txt")).forEach(liste -> {
+//                                final String[] labelle = {""};
+//                                final boolean[] existe = {false};
+//                                try {
+//                                    System.out.println(liste);
+//                                    Files.lines(liste).forEach(tool -> {
+//                                        String[] words = tool.split("    ");
+//                                        if(line.equals(words[0])){
+//                                            labelle[0] =words[1];
+//                                            existe[0] =true;
+//                                        }
+//                                    });
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                materials.add(new MaterialModel(labelle[0], existe[0]));
+//                            });
 
                     }
                     nbline[0]++;
                 });
+                Files.walk(FileSystems.getDefault().getPath("src\\main\\resources")).filter(fileliste -> fileliste.toString().endsWith("liste.txt")).forEach(liste -> {
+                    try {
+                        Files.lines(liste).forEach(tool -> {
+                            final String[] labelle = {""};
+                            final boolean[] existe = {false};
+                            String[] words = tool.split("    ");
+                            labelle[0] =words[1];
+                            tools.forEach(t ->{
+                                if(t.equals(words[0])){
+                                    existe[0] =true;
+                                }
+                            });
+                            materials.add(new MaterialModel(labelle[0], existe[0]));
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+
                 AgentModel agent= new AgentModel(ft[0], lt[0], met[0],img,materials);
                 agentListe.add(agent);
             } catch (IOException e) {
