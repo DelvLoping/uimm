@@ -7,6 +7,11 @@ import java.nio.file.Paths;
  * Classe principale
  */
 public class Program extends AProgram {
+
+    public Program() throws IOException {
+        headFile = GetResourceByName("head.html");
+    }
+
     /**
      * Point d'entrée
      * */

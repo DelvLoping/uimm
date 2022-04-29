@@ -12,12 +12,13 @@ import java.nio.file.Paths;
  * */
 public abstract class AProgram {
     protected static Gson gson = new Gson();
+    protected static String headFile;
 
     /**
      * Permet de retourner le contenu d'un fichier resource sous forme de chaine de caractères
      * @param viewName Le nom du fichier concerné
      * */
-    private static String GetResourceByName(String viewName) throws IOException {
+    public static String GetResourceByName(String viewName) throws IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream input = classLoader.getResourceAsStream(viewName);
         return new String(input.readAllBytes(), StandardCharsets.UTF_8);
@@ -35,6 +36,7 @@ public abstract class AProgram {
             htmlBuilder.append(String.format("<li><a href='profiles/"+model.getFileName("html")+"'>%s</a></li>", model.getFullName()));
 
         indexFile = indexFile.replace("$elements", htmlBuilder.toString());
+        indexFile = indexFile.replace("$head", headFile);
         return indexFile;
     }
 
@@ -52,6 +54,7 @@ public abstract class AProgram {
             htmlBuilder.append(String.format("<label>%s</label><input type='checkbox' %s>", materiel.label, materiel.value ? "checked disabled" : "disabled"));
 
         indexFile = indexFile.replace("$materials", htmlBuilder.toString());
+        indexFile = indexFile.replace("$head", headFile);
         return indexFile;
     }
 
