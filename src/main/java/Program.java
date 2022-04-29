@@ -37,5 +37,7 @@ public class Program extends AProgram {
 
         // Création des profiles
         GenerateProfiles(agents);
+
+        WriteFile("output/style.css", GetResourceByName("style.css"));
     }
 }

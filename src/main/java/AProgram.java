@@ -37,7 +37,13 @@ public abstract class AProgram {
         var htmlBuilder = new HtmlBuilder();
 
         for (var model: viewModel)
-            htmlBuilder.append(String.format("<li><a href='profiles/"+model.getFileName("html")+"'>%s</a></li>", model.getFullName()));
+        {
+            // Ancienne version
+            // htmlBuilder.append(String.format("<li><a href='profiles/"+model.getFileName("html")+"'>%s</a></li>", model.getFullName()));
+
+            // Nouvelle version avec BS
+            htmlBuilder.append(String.format("<a class=\"list-group-item list-group-item-action\" href='profiles/"+model.getFileName("html")+"'>%s</a>", model.getFullName()));
+        }
 
         indexFile = indexFile.replace("$elements", htmlBuilder.toString());
         indexFile = indexFile.replace("$head", headFile);

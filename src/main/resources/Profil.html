@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <base href="../" />
     <meta charset="UTF-8">
     <title>Profile de $fullName</title>
     $head
 </head>
-<body style="height:100vh;width: 98vw">
-<div style="justify-content:center; flex-direction: column">
-    <div style="display: flex;flex-direction: row;justify-content: space-between;">
-    <a href="../index.html">Go Back</a>
-    </div>
 
-    <div style="display: flex;flex-direction: row;justify-content: space-between;">
-        <div style="display: flex;flex-direction: column">
-            <h1>$fullName</h1>
+<body style="height:100vh;width: 98vw">
+    <div style="justify-content:center; flex-direction: column">
+        <div style="display: flex;flex-direction: row;justify-content: space-between;">
+            <a href="index.html">Go Back</a>
         </div>
-        <div style="display: flex; align-items: center; flex-direction: column">
-            <img src="$img" style="height: 150px"/>
+
+        <div style="display: flex;flex-direction: row;justify-content: space-between;">
+            <div style="display: flex;flex-direction: column">
+                <h1>$fullName</h1>
+            </div>
+            <div style="display: flex; align-items: center; flex-direction: column">
+                <img src="$img" style="height: 150px" />
+            </div>
+        </div>
+        <div style="display: flex;flex-direction: row;justify-content: center;">
+            <h2>Liste materiel</h2>
+        </div>
+        <div style="display: flex;flex-direction: row;justify-content: center;">
+            <div style="display: flex;align-items: center; flex-direction: column">
+                $materials
+            </div>
         </div>
     </div>
-    <div style="display: flex;flex-direction: row;justify-content: center;">
-        <h2>Liste materiel</h2>
-    </div>
-    <div style="display: flex;flex-direction: row;justify-content: center;">
-        <div style="display: flex;align-items: center; flex-direction: column">
-            $materials
-        </div>
-    </div>
-</div>
 </body>
+
 </html>
