@@ -3,6 +3,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -65,11 +66,19 @@ public abstract class AProgram {
 
     /**
      * Parse l'objet JSON et retourne la liste des agents
-     * */
+     *
     protected static AgentModel[] GetAgents() throws IOException {
+
+        /*Files.walk(Paths.get("C")).filter(p -> p.toString().endsWith(".txt")).forEach(p -> {
+            try {
+                Files.move(p, Paths.get("D:\\TestFiles", p.getFileName().toString()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         var jsonFileContent = GetResourceByName("data.json");
         return gson.fromJson(jsonFileContent, AgentModel[].class);
-    }
+    }*/
 
     /**
      * Ecris un fichier sur le disque
