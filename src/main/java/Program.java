@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Map;
 
 /**
  * Classe principale
@@ -17,6 +18,13 @@ public class Program extends AProgram {
 
     public Program() throws IOException {
         headFile = GetResourceByName("head.html");
+    }
+
+    public static Map<String, String> GetDirectoryFiles(String directory, String filter)
+    {
+
+
+        return default;
     }
 
     /**
@@ -82,6 +90,9 @@ public class Program extends AProgram {
                 e.printStackTrace();
             }
         });
+
+
+
 
     }
 }
