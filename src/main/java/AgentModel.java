@@ -9,6 +9,13 @@ public class AgentModel {
  public String img;
  public List<MaterialModel> materials;
 
+ public AgentModel(String firstN, String lastNe, String im, List<MaterialModel> mt){
+  firstName=firstN;
+  lastName=lastNe;
+  img=im;
+  materials=mt;
+
+ }
  /**
   * Fonction qui retourne un nom de fichier unique à cet agent
   * @param extension Extenstion du fichier
