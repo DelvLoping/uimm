@@ -47,9 +47,9 @@ public class Program extends AProgram {
 
         Files.walk(FileSystems.getDefault().getPath("src\\main\\resources")).filter(file -> file.toString().endsWith(".txt") && !file.toString().endsWith("liste.txt") && !file.toString().endsWith("agent.txt")).forEach(file -> {
             System.out.println(file.toString());
+            List<MaterialModel> materials=null;
             final int[] nbline = {0};
             try {
-                List<MaterialModel> materials=null;
                 Files.lines(file).forEach(line -> {
                     if (nbline[0] <= 4) {
                         System.out.println(line.toString());
