@@ -18,6 +18,8 @@ public abstract class AProgram {
     protected static Gson gson = new Gson();
     protected static String headFile;
 
+    private static String RESOURCE_DIRECTORY = "src/main/resources"; // "src\\main\\resources"
+
     /**
      * Permet de retourner le contenu d'un fichier resource sous forme de chaine de caractères
      * @param viewName Le nom du fichier concerné
@@ -102,7 +104,8 @@ public abstract class AProgram {
         var crendentials = new HashMap<String, String>();
 
         List<AgentModel> agentListe=new ArrayList<AgentModel>();
-        Files.walk(FileSystems.getDefault().getPath("src/main/resources")).filter(file -> file.toString().endsWith(".txt") && !file.toString().endsWith("liste.txt") && !file.toString().endsWith("agent.txt")).forEach(file -> {
+
+        Files.walk(FileSystems.getDefault().getPath(RESOURCE_DIRECTORY)).filter(file -> file.toString().endsWith(".txt") && !file.toString().endsWith("liste.txt") && !file.toString().endsWith("agent.txt")).forEach(file -> {
             System.out.println(file.toString());
             List<MaterialModel> materials= new ArrayList<MaterialModel>();
             final String[] ft = {""};
@@ -154,7 +157,7 @@ public abstract class AProgram {
                     }
                     nbline[0]++;
                 });
-                Files.walk(FileSystems.getDefault().getPath("src/main/resources")).filter(fileliste -> fileliste.toString().endsWith("liste.txt")).forEach(liste -> {
+                Files.walk(FileSystems.getDefault().getPath(RESOURCE_DIRECTORY)).filter(fileliste -> fileliste.toString().endsWith("liste.txt")).forEach(liste -> {
                     try {
                         Files.lines(liste).forEach(tool -> {
                             final String[] labelle = {""};
@@ -172,7 +175,6 @@ public abstract class AProgram {
                         e.printStackTrace();
                     }
                 });
-
                 AgentModel agent= new AgentModel(ft[0], lt[0], met[0],img,materials);
                 agentListe.add(agent);
             } catch (IOException e) {
