@@ -59,9 +59,10 @@ public abstract class AProgram {
         var htmlBuilder = new HtmlBuilder();
         indexFile = indexFile.replace("$fullName", agent.getFullName());
         indexFile = indexFile.replace("$img", agent.img);
+        indexFile = indexFile.replace("$metier", agent.metier);
 
         for (var materiel: agent.materials)
-            htmlBuilder.append(String.format("<label>%s</label><input type='checkbox' %s>", materiel.label, materiel.value ? "checked disabled" : "disabled"));
+            htmlBuilder.append(String.format("<div style=\"display: flex;align-items: center; flex-direction: row;\"><input type='checkbox' %s><label>%s</label></div>", materiel.value ? "checked disabled" : "disabled",materiel.label));
 
         indexFile = indexFile.replace("$materials", htmlBuilder.toString());
         indexFile = indexFile.replace("$head", headFile);
@@ -101,7 +102,7 @@ public abstract class AProgram {
         var crendentials = new HashMap<String, String>();
 
         List<AgentModel> agentListe=new ArrayList<AgentModel>();
-        Files.walk(FileSystems.getDefault().getPath("src\\main\\resources")).filter(file -> file.toString().endsWith(".txt") && !file.toString().endsWith("liste.txt") && !file.toString().endsWith("agent.txt")).forEach(file -> {
+        Files.walk(FileSystems.getDefault().getPath("src/main/resources")).filter(file -> file.toString().endsWith(".txt") && !file.toString().endsWith("liste.txt") && !file.toString().endsWith("agent.txt")).forEach(file -> {
             System.out.println(file.toString());
             List<MaterialModel> materials= new ArrayList<MaterialModel>();
             final String[] ft = {""};
@@ -153,7 +154,7 @@ public abstract class AProgram {
                     }
                     nbline[0]++;
                 });
-                Files.walk(FileSystems.getDefault().getPath("src\\main\\resources")).filter(fileliste -> fileliste.toString().endsWith("liste.txt")).forEach(liste -> {
+                Files.walk(FileSystems.getDefault().getPath("src/main/resources")).filter(fileliste -> fileliste.toString().endsWith("liste.txt")).forEach(liste -> {
                     try {
                         Files.lines(liste).forEach(tool -> {
                             final String[] labelle = {""};
