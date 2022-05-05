@@ -1,38 +1,37 @@
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Classe principale
  */
-public class Program extends AProgram {
+public class Program {
 
     /**
      * Point d'entrée
      * */
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
-        headFile = GetResourceByName("head.html");
+
+        // Instanciation du logger
+        var logger = Logger.getLogger("Agent");
+
+        // Instanciation du service de gestion des agents (utilisant les fichiers txt OU le fichier json)
+        var agentService = new AgentService(logger);
+        //var agentService = new AgentJsonService(logger);
 
         // On va chercher les agents
-        var agents = GetAgents();
-        GeneratePasswords(agents);
-        GenerateMaterialsView(agents);
+        var agents = agentService.GetAgents();
+        agentService.GeneratePasswords(agents);
+        agentService.GenerateMaterialsView(agents);
+
         // Création du index.html
-        var indexFileContent = GenerateIndexView(agents);
-        WriteFile("output/index.html", indexFileContent);
+        var indexFileContent = agentService.GenerateIndexView(agents);
+        agentService.WriteFile("output/index.html", indexFileContent);
 
         // Création des profiles
-        GenerateProfiles(agents);
+        agentService.GenerateProfiles(agents);
 
-        WriteFile("output/style.css", GetResourceByName("style.css"));
+        // Copie du fichier des styles
+        agentService.WriteFile("output/style.css", agentService.GetResourceByName("style.css"));
     }
 }
