@@ -8,13 +8,15 @@ public class AgentModel {
  public String lastName;
  public String metier;
  public String img;
+ public String mdp;
  public List<MaterialModel> materials;
 
- public AgentModel(String firstN, String lastNe, String met, String im, List<MaterialModel> mt){
+ public AgentModel(String firstN, String lastNe, String met, String im, String mot, List<MaterialModel> mt){
   firstName=firstN;
   lastName=lastNe;
   metier = met;
   img=im;
+  mdp=mot;
   materials=mt;
 
  }

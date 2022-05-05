@@ -16,12 +16,6 @@ import java.util.Map;
  */
 public class Program extends AProgram {
 
-
-    /*public static Map<String, String> GetDirectoryFiles(String directory, String filter)
-    {
-        return;
-    }*/
-
     /**
      * Point d'entrée
      * */
@@ -30,7 +24,8 @@ public class Program extends AProgram {
 
         // On va chercher les agents
         var agents = GetAgents();
-
+        GeneratePasswords(agents);
+        GenerateMaterialsView(agents);
         // Création du index.html
         var indexFileContent = GenerateIndexView(agents);
         WriteFile("output/index.html", indexFileContent);

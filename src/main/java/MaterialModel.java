@@ -10,4 +10,8 @@ public class MaterialModel {
         label=text;
         value=val;
     }
+
+    public String getFileName(String extension) {
+        return String.format("%s.%s", label.toLowerCase().replaceAll("[^a-z]+",""), extension);
+    }
 }
