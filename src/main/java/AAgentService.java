@@ -9,17 +9,19 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.logging.Logger;
 
-public class AAgentService {
-    protected Logger logger;
-    protected String headFile, indexFile, profileFile, materialFile;
+public abstract class AAgentService {
+    protected Logger _logger;
+    protected String _headFile, _indexFile, _profileFile, _materialFile;
     protected final String RESOURCE_DIRECTORY = "src/main/resources";
     protected final String PRAVATAR_URL = "https://i.pravatar.cc/300";
+    private MessageDigest _md;
 
-    public AAgentService() throws IOException {
-        headFile = GetResourceByName("head.html");
-        indexFile = GetResourceByName("index.html");
-        profileFile = GetResourceByName("Profil.html");
-        materialFile = GetResourceByName("Material.html");
+    public AAgentService() throws IOException, NoSuchAlgorithmException {
+        _headFile = GetResourceByName("head.html");
+        _indexFile = GetResourceByName("index.html");
+        _profileFile = GetResourceByName("Profil.html");
+        _materialFile = GetResourceByName("Material.html");
+        _md = MessageDigest.getInstance("SHA-1");
     }
 
     /**
@@ -36,90 +38,106 @@ public class AAgentService {
     /**
      * Génère le fichier index.html qui permet la navigation entre les différents profiles
      */
-    protected String GenerateIndexView(AgentModel[] viewModel) throws IOException {
-        var htmlBuilder = new HtmlBuilder();
+    protected String GenerateIndexView(AgentModel[] agents) throws IOException {
+        _logger.info(String.format("Génération de la vue index pour %d agents", agents.length));
 
-        for (var model : viewModel) {
+        var stringBuilder = new StringBuilder();
+
+        for (var agent : agents) {
             // Ancienne version
-            // htmlBuilder.append(String.format("<li><a href='profiles/"+model.getFileName("html")+"'>%s</a></li>", model.getFullName()));
+            //final var template = "<li><a href='profiles/%s'>%s</a></li>";
 
             // Nouvelle version avec BS
-            htmlBuilder.append(String.format("<a class=\"list-group-item list-group-item-action\" href='profiles/" + model.getFileName("html") + "'>%s</a>", model.getFullName()));
+            final var template = "<a class=\"list-group-item list-group-item-action\" href='profiles/%s'>%s</a>";
+            stringBuilder.append(String.format(template, agent.getFileName("html"), agent.getFullName()));
         }
 
-        indexFile = indexFile.replace("$elements", htmlBuilder.toString());
-        indexFile = indexFile.replace("$head", headFile);
-        return indexFile;
+        return _indexFile.replace("$elements", stringBuilder.toString()).replace("$head", _headFile);
     }
 
     /**
      * Génération d'un profile
      */
     protected String GenerateProfile(AgentModel agent) throws IOException {
-        var htmlBuilder = new HtmlBuilder();
-        profileFile = profileFile.replace("$fullName", agent.getFullName());
-        profileFile = profileFile.replace("$img", agent.img);
-        profileFile = profileFile.replace("$metier", agent.metier);
+        _logger.info(String.format("Génération de la vue d'un profile pour l'agent %s", agent.getFullName()));
 
-        for (var materiel : agent.materials)
-            htmlBuilder.append(String.format("<div style=\"display: flex;align-items: center; flex-direction: row;\"><input type='checkbox' %s><a href=\"materials/%s\">%s</a></div>", materiel.value ? "checked disabled" : "disabled",materiel.getFileName("html") ,materiel.label));
+        var stringBuilder = new StringBuilder();
 
+        var profileFile = _profileFile.replace("$fullName", agent.getFullName()).replace("$img", agent.imageUrl).replace("$metier", agent.job);
 
-        profileFile = profileFile.replace("$materials", htmlBuilder.toString());
-        profileFile = profileFile.replace("$head", headFile);
-        return profileFile;
+        for (var materiel : agent.materials) {
+            final var template = "<div style=\"display: flex;align-items: center; flex-direction: row;\"><input type='checkbox' %s><a href=\"materials/%s\">%s</a></div>";
+            stringBuilder.append(String.format(template, materiel.value ? "checked disabled" : "disabled", materiel.getFileName("html"), materiel.label));
+        }
+
+        return profileFile.replace("$materials", stringBuilder.toString()).replace("$head", _headFile);
     }
 
     /**
      * Génération de tout les profiles
      */
-    protected void GenerateProfiles(AgentModel[] viewModel) throws IOException {
-        for (var agent : viewModel) {
-            WriteFile("output/profiles/" + agent.getFileName("html"), GenerateProfile(agent));
+    protected void GenerateProfiles(AgentModel[] agents) throws IOException {
+        for (var agent : agents) {
+            WriteFile(String.format("output/profiles/%s", agent.getFileName("html")), GenerateProfile(agent));
         }
     }
 
+    /**
+     * Méthode qui permet de générer le fichier .htpasswd à partir d'une liste d'identifiants utilisateur/mot de passe
+     */
     protected String GenerateHtPasswd(Map<String, String> credentials) throws NoSuchAlgorithmException {
-        var result = "";
-        MessageDigest md = MessageDigest.getInstance("SHA-1");
+        var result = new StringBuilder();
 
         for (var cred : credentials.entrySet()) {
             var passwordBytes = cred.getValue().getBytes();
-            md.update(passwordBytes);
-            var digest = md.digest();
+            _md.update(passwordBytes);
+            var digest = _md.digest();
             var passwordHash = Base64.getEncoder().encodeToString(digest);
-            result += String.format("%s:{SHA}%s\n", cred.getKey(), passwordHash);
+            result.append(String.format("%s:{SHA}%s\n", cred.getKey(), passwordHash));
         }
 
-        return result;
+        return result.toString();
     }
 
-    protected void GeneratePasswords(AgentModel[] agents) throws IOException, NoSuchAlgorithmException {
-        var crendentials = new HashMap<String, String>();
+    /**
+     * Méthode qui permet de générer la liste des identifiants à partir d'une liste d'agent
+     */
+    protected Map<String, String> GeneratePasswords(AgentModel[] agents) throws IOException, NoSuchAlgorithmException {
+        var credentials = new HashMap<String, String>();
+
         for (var agent : agents) {
-            crendentials.put(agent.firstName.toLowerCase().charAt(0) + agent.lastName.toLowerCase(), agent.mdp);
+            credentials.put(agent.firstName.toLowerCase().charAt(0) + agent.lastName.toLowerCase(), agent.password);
         }
-        var content = GenerateHtPasswd(crendentials);
-        WriteFile("output/.htpasswd", content);
+
+        return credentials;
+
+        //var content = GenerateHtPasswd(credentials);
+        //WriteFile("output/.htpasswd", content);
     }
 
-    protected String GenerateMaterialView(String label,AgentModel[] agents) throws IOException {
-        var htmlBuilder = new HtmlBuilder();
-        materialFile = materialFile.replace("$label", label);
+    /**
+     * Génération d'une vue materiel
+     */
+    protected String GenerateMaterialView(String label, AgentModel[] agents) throws IOException {
+        _logger.info(String.format("Génération d'une vue materiel (%s) pour %d agents", label, agents.length));
+
+        var stringBuilder = new StringBuilder();
+        var materialFile = _materialFile.replace("$label", label);
 
         for (var agent : agents) {
-            htmlBuilder.append(String.format("<div class=\"card\" style=\"margin: 10px;\"><div class=\"top-container\" style=\"margin-right: 20px;display: flex!important; justify-content: space-evenly!important;\"> <div class=\"ml-3\"><h5 class=\"name\">%s</h5><p class=\"mail\">%s</p></div><img src=\"%s\" class=\"img-fluid profile-image\" width=\"70\"></div></div>",agent.getFullName(), agent.metier,agent.img));
+            final var template = "<div class=\"card\" style=\"margin: 10px;\"><div class=\"top-container\" style=\"margin-right: 20px;display: flex!important; justify-content: space-evenly!important;\"> <div class=\"ml-3\"><h5 class=\"name\">%s</h5><p class=\"mail\">%s</p></div><img src=\"%s\" class=\"img-fluid profile-image\" width=\"70\"></div></div>";
+            stringBuilder.append(String.format(template, agent.getFullName(), agent.job, agent.imageUrl));
         }
 
-        materialFile = materialFile.replace("$agents", htmlBuilder.toString());
-        materialFile = materialFile.replace("$head", headFile);
-        return materialFile;
+        return materialFile.replace("$agents", stringBuilder.toString()).replace("$head", _headFile);
     }
 
     /**
      * Génération de toutes les vues materiel
      */
     protected void GenerateMaterialsView(AgentModel[] agents) throws IOException {
+        _logger.info(String.format("Génération des vues des materiaux pour %d agents", agents.length));
+
         Files.walk(FileSystems.getDefault().getPath(RESOURCE_DIRECTORY)).filter(fileliste -> fileliste.toString().endsWith("liste.txt")).forEach(liste -> {
             try {
                 Files.lines(liste).forEach(tool -> {
@@ -132,8 +150,11 @@ public class AAgentService {
                             }
                         }
                     }
+                    _logger.info(String.format("Nombre d'agent %d", agentListe.size()));
                     try {
-                        WriteFile("output/materials/" + words[1].toLowerCase().replaceAll("[^a-z]+","")+".html", GenerateMaterialView(words[1],agentListe.toArray(AgentModel[]::new)));
+                        var fileName = words[1].toLowerCase().replaceAll("[^a-z]+","")+".html";
+                        WriteFile("output/materials/" + fileName, GenerateMaterialView(words[1], agentListe.toArray(AgentModel[]::new)));
+                        _logger.info(String.format("Fichier %s sauvegardé", fileName));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

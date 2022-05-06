@@ -1,8 +1,11 @@
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 
 /*
@@ -10,8 +13,8 @@ import java.util.logging.Logger;
  */
 public class AgentService extends AAgentService implements IAgentService {
 
-    public AgentService(Logger logger) throws IOException {
-        this.logger = logger;
+    public AgentService(Logger logger) throws IOException, NoSuchAlgorithmException {
+        this._logger = logger;
     }
 
     /**
@@ -21,39 +24,30 @@ public class AgentService extends AAgentService implements IAgentService {
         List<AgentModel> agentList = new ArrayList<AgentModel>();
 
         Files.walk(FileSystems.getDefault().getPath(RESOURCE_DIRECTORY)).filter(file -> file.toString().endsWith(".txt") && !file.toString().endsWith("liste.txt") && !file.toString().endsWith("agent.txt")).forEach(file -> {
-
-        });
-
-        Files.walk(FileSystems.getDefault().getPath(RESOURCE_DIRECTORY)).filter(file -> file.toString().endsWith(".txt") && !file.toString().endsWith("liste.txt") && !file.toString().endsWith("agent.txt")).forEach(file -> {
-            //System.out.println(file.toString());
-
             List<MaterialModel> materials = new ArrayList<MaterialModel>();
 
-            final String[] ft = {""};
-            final String[] lt = {""};
-            final String[] met = {""};
-            final String[] mot = {""};
-
+            var firstName = new AtomicReference<String>();
+            var lastName = new AtomicReference<String>();
+            var materiel = new AtomicReference<String>();
+            var mot = new AtomicReference<String>();
+            var nbline = new AtomicReference<Integer>(0);
             List<String> tools = new ArrayList<String>();
-            final int[] nbline = {0};
 
             try {
                 Files.lines(file).forEach(line -> {
-                    if (nbline[0] <= 4) {
-                        switch (nbline[0]) {
+                    if (nbline.get() <= 4) {
+                        switch (nbline.get()) {
                             case 0:
-                                ft[0] = line;
+                                firstName.set(line);
                                 break;
                             case 1:
-                                lt[0] = line;
+                                lastName.set(line);
                                 break;
                             case 2:
-                                met[0] = line;
+                                materiel.set(line);
                                 break;
                             case 3:
-                                mot[0] = line;
-//                                var name =file.getFileName().toString().split("[.]")[0];
-//                                crendentials.put(name, line);
+                                mot.set(line);
                                 break;
                             case 4:
                                 break;
@@ -61,51 +55,30 @@ public class AgentService extends AAgentService implements IAgentService {
                     } else {
                         tools.add(line);
                     }
-                    nbline[0]++;
+                    nbline.set(nbline.get() + 1);
                 });
 
-/*                var liste = this.GetResourceByName("liste.txt");
+                var liste = this.GetResourceByName("liste.txt");
 
-                var listLines = liste.split("(\\r\\n|\\r|\\n)");
+                for (var line: liste.split("(\\r\\n|\\r|\\n)")) {
+                    var exist = new AtomicBoolean(false);
+                    var words = line.split("    ");
+                    var label = words[1];
 
-                for (var line: listLines) {
-                    final String[] labelle = {""};
-                    final boolean[] existe = {false};
-                    String[] words = line.split("    ");
-                    labelle[0] = words[1];
                     tools.forEach(t -> {
                         if (t.equals(words[0])) {
-                            existe[0] = true;
+                            exist.set(true);
                         }
                     });
-                    materials.add(new MaterialModel(labelle[0], existe[0]));
-                }*/
 
-                Files.walk(FileSystems.getDefault().getPath(RESOURCE_DIRECTORY)).filter(fileliste -> fileliste.toString().endsWith("liste.txt")).forEach(liste -> {
-                    try {
-                        Files.lines(liste).forEach(tool -> {
-                            final String[] labelle = {""};
-                            final boolean[] existe = {false};
-                            String[] words = tool.split("    ");
-                            labelle[0] = words[1];
-                            tools.forEach(t -> {
-                                if (t.equals(words[0])) {
-                                    existe[0] = true;
-                                }
-                            });
-                            materials.add(new MaterialModel(labelle[0], existe[0]));
-                        });
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
+                    materials.add(new MaterialModel(label, exist.get()));
+                }
 
-                agentList.add(new AgentModel(ft[0], lt[0], met[0], PRAVATAR_URL, mot[0], materials));
+                agentList.add(new AgentModel(firstName.get(), lastName.get(), materiel.get(), PRAVATAR_URL, mot.get(), materials));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-        //System.out.println(agentList);
 
         return agentList.toArray(AgentModel[]::new);
     }
