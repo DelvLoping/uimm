@@ -82,5 +82,4 @@ public class AgentService extends AAgentService implements IAgentService {
 
         return agentList.toArray(AgentModel[]::new);
     }
-
 }

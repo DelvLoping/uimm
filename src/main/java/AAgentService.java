@@ -9,6 +9,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.logging.Logger;
 
+/**
+ * Classe de base de gestion des agents
+ */
 public abstract class AAgentService {
     protected Logger _logger;
     protected String _headFile, _indexFile, _profileFile, _materialFile;

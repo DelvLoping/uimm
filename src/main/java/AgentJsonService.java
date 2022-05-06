@@ -1,5 +1,4 @@
 import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
