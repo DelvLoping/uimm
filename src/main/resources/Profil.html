@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <base href="../"/>
     <meta charset="UTF-8">
     <title>Profile de $fullName</title>
     $head
 </head>
-
 <body style="height:100vh;width: 98vw">
-<button style="display: flex;flex-direction: row;justify-content: center;" onclick="history.back()">
-Retour
+<button class='btn'
+        style="display: flex;flex-direction: row;justify-content: center; background-color:#ffffff; border-color:#ffffff; margin: 6px;"
+        onclick="history.back()">
+    Retour
 </button>
 <div class=" container d-flex justify-content-center mt-5">
     <div class="card">
-    <div class="top-container" style="margin-right: 20px;display: flex!important; justify-content: space-evenly!important;">
+        <div class="top-container"
+             style="margin-right: 20px;display: flex!important; justify-content: space-evenly!important;">
             <div class="ml-3">
                 <h5 class="name">$fullName</h5>
                 <p class="mail">$metier</p>
             </div>
             <img src="$img" class="img-fluid profile-image" width="70">
         </div>
-        <div class="middle-container d-flex align-items-center mt-3 p-2" style="display: flex!important; justify-content: space-evenly!important;">
+        <div class="middle-container d-flex align-items-center mt-3 p-2"
+             style="display: flex!important; justify-content: space-evenly!important;">
             <div class="d-flex flex-column mr-2"><span>Liste materiel</span></div>
         </div>
         <div style="display: flex;flex-direction: row;justify-content: center;">

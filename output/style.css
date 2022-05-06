@@ -134,3 +134,7 @@ body {
     border-bottom: 1px solid #dee2e6 !important
 }
 
+a{
+    color: #000000 !important;
+    text-decoration: none !important;
+}
