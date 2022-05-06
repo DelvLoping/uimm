@@ -1,6 +1,7 @@
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
 
 /**
@@ -9,8 +10,8 @@ import java.util.logging.Logger;
 public class AgentJsonService extends AAgentService implements IAgentService {
     private Gson gson = new Gson();
 
-    public AgentJsonService(Logger logger) throws IOException {
-        this.logger = logger;
+    public AgentJsonService(Logger logger) throws IOException, NoSuchAlgorithmException {
+        this._logger = logger;
     }
 
     /**

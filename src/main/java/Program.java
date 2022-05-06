@@ -21,7 +21,11 @@ public class Program {
 
         // On va chercher les agents
         var agents = agentService.GetAgents();
-        agentService.GeneratePasswords(agents);
+
+        // Génération du fichier htpasswd
+        agentService.WriteFile("output/.htpasswd", agentService.GenerateHtPasswd(agentService.GeneratePasswords(agents)));
+
+        // Génération des vues du materiel
         agentService.GenerateMaterialsView(agents);
 
         // Création du index.html

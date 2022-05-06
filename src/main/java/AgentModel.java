@@ -6,18 +6,18 @@ import java.util.List;
 public class AgentModel {
  public String firstName;
  public String lastName;
- public String metier;
- public String img;
- public String mdp;
+ public String job;
+ public String imageUrl;
+ public String password;
  public List<MaterialModel> materials;
 
- public AgentModel(String firstN, String lastNe, String met, String im, String mot, List<MaterialModel> mt){
-  firstName=firstN;
-  lastName=lastNe;
-  metier = met;
-  img=im;
-  mdp=mot;
-  materials=mt;
+ public AgentModel(String _firstName, String _lastName, String _job, String _imageUrl, String _password, List<MaterialModel> _materials) {
+  firstName =_firstName;
+  lastName =_lastName;
+  job = _job;
+  imageUrl = _imageUrl;
+  password = _password;
+  materials = _materials;
 
  }
  /**
