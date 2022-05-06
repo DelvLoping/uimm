@@ -185,7 +185,7 @@ public abstract class AProgram {
         indexFile = indexFile.replace("$label", label);
 
         for (var agent : agents) {
-            htmlBuilder.append(String.format("<div class=\"card\"><div class=\"top-container\" style=\"margin-right: 20px;display: flex!important; justify-content: space-evenly!important;\"> <div class=\"ml-3\"><h5 class=\"name\">%s</h5><p class=\"mail\">%s</p></div><img src=\"%s\" class=\"img-fluid profile-image\" width=\"70\"></div></div>",agent.getFullName(), agent.metier,agent.img));
+            htmlBuilder.append(String.format("<div class=\"card\" style=\"margin: 10px;\" ><div class=\"top-container\" style=\"margin-right: 20px;display: flex!important; justify-content: space-evenly!important;\"> <div class=\"ml-3\"><h5 class=\"name\">%s</h5><p class=\"mail\">%s</p></div><img src=\"%s\" class=\"img-fluid profile-image\" width=\"70\"></div></div>",agent.getFullName(), agent.metier,agent.img));
         }
         indexFile = indexFile.replace("$agents", htmlBuilder.toString());
         indexFile = indexFile.replace("$head", headFile);
